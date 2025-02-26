@@ -1,5 +1,6 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
+from .tarantulas import seed_tarantulas, undo_tarantulas
 
 from app.models.db import db, environment, SCHEMA
 
@@ -17,7 +18,9 @@ def seed():
         # the schema name (see comment in users.py undo_users function).
         # Make sure to add all your other model's undo functions below
         undo_users()
+        undo_tarantulas()
     seed_users()
+    seed_tarantulas()
     # Add other seed functions here
 
 
@@ -25,4 +28,5 @@ def seed():
 @seed_commands.command('undo')
 def undo():
     undo_users()
+    undo_tarantulas()
     # Add other undo functions here
