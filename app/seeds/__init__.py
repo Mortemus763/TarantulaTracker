@@ -1,6 +1,7 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .tarantulas import seed_tarantulas, undo_tarantulas
+from .forum_posts import seed_forum_posts, undo_forum_posts
 
 from app.models.db import db, environment, SCHEMA
 
@@ -19,8 +20,10 @@ def seed():
         # Make sure to add all your other model's undo functions below
         undo_users()
         undo_tarantulas()
+        undo_forum_posts()
     seed_users()
     seed_tarantulas()
+    seed_forum_posts()
     # Add other seed functions here
 
 
@@ -29,4 +32,5 @@ def seed():
 def undo():
     undo_users()
     undo_tarantulas()
+    undo_forum_posts()
     # Add other undo functions here
