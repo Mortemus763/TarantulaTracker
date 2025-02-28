@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
+from .favorite import favorites 
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -15,6 +16,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     
     forum_posts = relationship("ForumPost", back_populates="user", cascade="all, delete-orphan")
+    favorite_tarantulas = relationship("Tarantula", secondary=favorites, back_populates="favorited_by")
 
     @property
     def password(self):

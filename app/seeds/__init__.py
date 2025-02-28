@@ -2,6 +2,8 @@ from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .tarantulas import seed_tarantulas, undo_tarantulas
 from .forum_posts import seed_forum_posts, undo_forum_posts
+from .favorites import seed_favorites, undo_favorites
+
 
 from app.models.db import db, environment, SCHEMA
 
@@ -21,9 +23,11 @@ def seed():
         undo_users()
         undo_tarantulas()
         undo_forum_posts()
+        undo_favorites() 
     seed_users()
     seed_tarantulas()
     seed_forum_posts()
+    seed_favorites()
     # Add other seed functions here
 
 
@@ -33,4 +37,5 @@ def undo():
     undo_users()
     undo_tarantulas()
     undo_forum_posts()
+    undo_favorites() 
     # Add other undo functions here
