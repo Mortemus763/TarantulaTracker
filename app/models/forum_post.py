@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 from sqlalchemy.orm import relationship
+from .forum_post_tags import forum_post_tags
 
 class ForumPost(db.Model):
     __tablename__ = "forum_posts"
@@ -17,6 +18,7 @@ class ForumPost(db.Model):
 
     # Relationships
     user = relationship("User", back_populates="forum_posts")
+    tags = relationship("Tag", secondary=forum_post_tags, back_populates="forum_posts")
 
     def to_dict(self):
         return {

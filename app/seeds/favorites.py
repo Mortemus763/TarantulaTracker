@@ -6,7 +6,6 @@ def seed_favorites():
     tarantula1 = Tarantula.query.get(2)
     tarantula2 = Tarantula.query.get(3)
 
-    # ✅ Add favorite tarantulas for the user
     user1.favorite_tarantulas.append(tarantula1)
     user1.favorite_tarantulas.append(tarantula2)
 
