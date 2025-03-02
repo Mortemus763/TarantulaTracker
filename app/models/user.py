@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 from .favorite import favorites 
+from .forum_reply import ForumReply
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -17,6 +18,7 @@ class User(db.Model, UserMixin):
     
     forum_posts = relationship("ForumPost", back_populates="user", cascade="all, delete-orphan")
     favorite_tarantulas = relationship("Tarantula", secondary=favorites, back_populates="favorited_by")
+    forum_replies = relationship("ForumReply", back_populates="user", cascade="all, delete-orphan")
 
     @property
     def password(self):

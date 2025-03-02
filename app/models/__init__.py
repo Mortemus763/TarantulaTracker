@@ -5,4 +5,5 @@ from .forum_post import ForumPost
 from .favorite import favorites
 from .tag import Tag
 from .forum_post_tags import forum_post_tags
+from .forum_reply import ForumReply
 from .db import environment, SCHEMA

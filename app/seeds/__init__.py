@@ -5,6 +5,8 @@ from .forum_posts import seed_forum_posts, undo_forum_posts
 from .favorites import seed_favorites, undo_favorites
 from .tags import seed_tags, undo_tags
 from .forum_post_tags import seed_forum_post_tags, undo_forum_post_tags
+from .forum_replies import seed_forum_replies, undo_forum_replies
+
 
 from app.models.db import db, environment, SCHEMA
 
@@ -27,12 +29,14 @@ def seed():
         undo_favorites()
         undo_tags()
         undo_forum_post_tags()
+        undo_forum_replies()
     seed_users()
     seed_tarantulas()
     seed_forum_posts()
     seed_favorites()
     seed_tags()
     seed_forum_post_tags()
+    seed_forum_replies()
     # Add other seed functions here
 
 
@@ -45,4 +49,5 @@ def undo():
     undo_favorites()
     undo_tags()
     undo_forum_post_tags()
+    undo_forum_replies()
     # Add other undo functions here
