@@ -9,6 +9,8 @@ from .api.user_routes import user_routes
 from .api.auth_routes import auth_routes
 from .api.tarantula_routes import tarantula_routes
 from .api.forum_routes import forum_routes
+from .api.favorites_routes import favorites_routes
+from .api.tags_routes import tags_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -32,6 +34,8 @@ app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(tarantula_routes, url_prefix="/api/tarantulas")
 app.register_blueprint(forum_routes, url_prefix="/api/forums")
+app.register_blueprint(favorites_routes, url_prefix="/api/favorites")
+app.register_blueprint(tags_routes, url_prefix="/api/tags")
 db.init_app(app)
 Migrate(app, db)
 
