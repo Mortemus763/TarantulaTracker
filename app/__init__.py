@@ -11,7 +11,7 @@ from .api.tarantula_routes import tarantula_routes
 from .api.forum_routes import forum_routes
 from .api.favorites_routes import favorites_routes
 from .api.tags_routes import tags_routes
-from .api.forum_replies_routes import forum_replies_routes
+from .api.replies_routes import forum_replies_routes
 from .seeds import seed_commands
 from .config import Config
 
