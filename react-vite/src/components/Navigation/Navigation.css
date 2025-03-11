@@ -14,14 +14,7 @@
   height: 40px;
 }
 
-/* Center Section */
-.nav-center {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.nav-button {
+.collection-button {
   background-color: #f5f5f5;
   border: none;
   padding: 6px 12px;
@@ -37,15 +30,102 @@
   font-size: 16px;
 }
 
-/* Right Section - Profile Icon */
 .nav-right {
   display: flex;
   align-items: center;
+  gap: 20px;
 }
 
-.nav-right button {
-  background: none;
-  border: none;
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-icon {
+  background-color: white; 
+  border: 2px solid black; 
+  border-radius: 8px; 
+  padding: 8px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  font-size: 24px;
+  transition: all 0.3s ease-in-out; 
+}
+
+.profile-icon:hover {
+  background-color: #f0f0f0; 
+  border-color: #333; 
+}
+
+.profile-icon svg {
+  font-size: 24px; 
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  width: 250px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+.login-dropdown-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-dropdown-form label {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.login-dropdown-form input {
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-button,
+.signup-button,
+.logout-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button {
+  background-color: gray;
+  color: white;
+}
+
+.signup-button {
+  background-color: gray;
+  color: white;
+}
+.logout-button {
+  background-color: red;
+  color: white;
+}
+.demo-user-link {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.demo-user-link:hover {
+  text-decoration: underline;
 }

@@ -12,16 +12,14 @@ function Navigation() {
         </NavLink>
       </div>
 
-      <div className="nav-center">
-        <NavLink to="/collection" className="nav-button">
+      <div className="nav-right">
+        <NavLink to="/collection" className="collection-button">
           Add Collection+
         </NavLink>
         <NavLink to="/forums" className="nav-link">
           Forums
         </NavLink>
-      </div>
-
-      <div className="nav-right">
+    
         <ProfileButton />
       </div>
     </nav>
