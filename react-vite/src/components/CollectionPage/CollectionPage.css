@@ -1,0 +1,70 @@
+.collection-container {
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .add-collection-btn {
+    background-color: #f5f5f5;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  
+  .collection-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .collection-item {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+  }
+  
+  .image-placeholder img {
+    width: 80px;
+    height: 80px;
+    background: lightgray;
+    border-radius: 5px;
+  }
+  
+  .collection-details {
+    flex: 1;
+    margin-left: 15px;
+  }
+  
+  .collection-actions {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-btn, .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .edit-btn {
+    background: lightblue;
+  }
+  
+  .delete-btn {
+    background: lightcoral;
+  }
+  
+  .favorite-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
