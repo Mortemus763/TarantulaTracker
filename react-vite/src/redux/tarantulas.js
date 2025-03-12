@@ -7,15 +7,17 @@ export const fetchTarantulas = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await csrfFetch("/api/tarantulas/");
+      const data = await response.json();
       if (!response.ok) {
         throw new Error("Failed to fetch tarantulas");
       }
-      return await response.json();
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
+
 
 export const addTarantula = createAsyncThunk(
   "tarantulas/addTarantula",
