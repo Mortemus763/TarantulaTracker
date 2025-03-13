@@ -62,6 +62,27 @@ export const updateTarantula = createAsyncThunk(
   }
 );
 
+
+export const deleteTarantula = createAsyncThunk(
+  "tarantulas/deleteTarantula",
+  async (tarantulaId, { rejectWithValue }) => {
+    try {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete tarantula");
+      }
+
+      return tarantulaId;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+
 const tarantulasSlice = createSlice({
   name: "tarantulas",
   initialState: { list: [], status: "idle", error: null },
@@ -87,6 +108,9 @@ const tarantulasSlice = createSlice({
         if (index !== -1) {
           state.list[index] = action.payload; 
         }
+      })
+      .addCase(deleteTarantula.fulfilled, (state, action) => {
+        state.list = state.list.filter((t) => t.id !== action.payload);
       });
   },
 });

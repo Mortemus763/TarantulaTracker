@@ -4,6 +4,7 @@ import { fetchTarantulas } from "../../redux/tarantulas";
 import { useModal } from "../../context/Modal";
 import TarantulaForm from "../AddTarantulaForm/AddTarantulaForm";
 import EditTarantulaForm from "../EditTarantulaForm/EditTarantulaForm"; 
+import DeleteTarantulaModal from "../DeleteTarantulaModal/DeleteTarantulaModal";
 import "./CollectionPage.css";
 
 function CollectionPage() {
@@ -45,7 +46,12 @@ function CollectionPage() {
                                 >
                                     Edit
                                 </button>
-                                    <button className="delete-btn">Delete</button>
+                                <button 
+                                    className="delete-btn"
+                                    onClick={() => setModalContent(<DeleteTarantulaModal tarantulaId={tarantula.id} />)}
+                                >
+                                    Delete
+                                </button>
                                 </div>
                             </div>
                             <div className="favorite-icon">♡</div>
