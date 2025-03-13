@@ -40,6 +40,28 @@ export const addTarantula = createAsyncThunk(
   }
 );
 
+
+export const updateTarantula = createAsyncThunk(
+  "tarantulas/updateTarantula",
+  async (tarantulaData, { rejectWithValue }) => {
+    try {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaData.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(tarantulaData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update tarantula");
+      }
+
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const tarantulasSlice = createSlice({
   name: "tarantulas",
   initialState: { list: [], status: "idle", error: null },
@@ -59,6 +81,12 @@ const tarantulasSlice = createSlice({
       })
       .addCase(addTarantula.fulfilled, (state, action) => {
         state.list.push(action.payload);
+      })
+      .addCase(updateTarantula.fulfilled, (state, action) => {
+        const index = state.list.findIndex((t) => t.id === action.payload.id);
+        if (index !== -1) {
+          state.list[index] = action.payload; 
+        }
       });
   },
 });

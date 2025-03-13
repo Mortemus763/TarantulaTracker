@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink } from "react-router-dom";
 import { fetchTarantulas } from "../../redux/tarantulas";
+import { useModal } from "../../context/Modal";
+import TarantulaForm from "../AddTarantulaForm/AddTarantulaForm";
+import EditTarantulaForm from "../EditTarantulaForm/EditTarantulaForm"; 
 import "./CollectionPage.css";
 
 function CollectionPage() {
     const dispatch = useDispatch();
+    const { setModalContent } = useModal();
     const user = useSelector((state) => state.session.user);
     const tarantulas = useSelector((state) => state.tarantulas?.list || []);
 
@@ -19,8 +22,8 @@ function CollectionPage() {
     return (
         <div className="collection-container">
             <h1>Collection</h1>
-            <button className="add-collection-btn">
-                <NavLink to="/collection/new">Add Collection+</NavLink>
+            <button className="add-collection-btn" onClick={() => setModalContent(<TarantulaForm />)}>
+                Add Collection+
             </button>   
 
             {tarantulas.length === 0 && <p>No tarantulas found.</p>}
@@ -36,7 +39,12 @@ function CollectionPage() {
                                 <h3>{tarantula.name}</h3>
                                 <p>{tarantula.description}</p>
                                 <div className="collection-actions">
-                                    <button className="edit-btn">Edit</button>
+                                <button 
+                                    className="edit-btn"
+                                    onClick={() => setModalContent(<EditTarantulaForm tarantula={tarantula} />)}
+                                >
+                                    Edit
+                                </button>
                                     <button className="delete-btn">Delete</button>
                                 </div>
                             </div>
