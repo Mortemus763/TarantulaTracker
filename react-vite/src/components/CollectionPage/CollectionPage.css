@@ -68,3 +68,31 @@
     cursor: pointer;
   }
   
+  .favorite-icon {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    color: black;
+    transition: color 0.3s ease-in-out;
+}
+
+.heart-icon {
+    font-size: 20px;
+    transition: color 0.3s ease-in-out;
+}
+
+.favorite-label {
+    opacity: 0; /* Hide label initially */
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.favorite-icon:hover .heart-icon {
+    color: red; /* Highlight heart in red */
+}
+
+.favorite-icon:hover .favorite-label {
+    opacity: 1; /* Show label on hover */
+}

@@ -2,7 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from sqlalchemy.orm import relationship
-from .favorite import favorites 
+from .favorite import Favorite
 from .forum_reply import ForumReply
 
 class User(db.Model, UserMixin):
@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     
     forum_posts = relationship("ForumPost", back_populates="user", cascade="all, delete-orphan")
-    favorite_tarantulas = relationship("Tarantula", secondary=favorites, back_populates="favorited_by")
+    favorite_tarantulas = relationship("Tarantula", secondary="favorites", back_populates="favorited_by")
     forum_replies = relationship("ForumReply", back_populates="user", cascade="all, delete-orphan")
 
     @property

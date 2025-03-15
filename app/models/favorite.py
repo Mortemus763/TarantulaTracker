@@ -1,11 +1,19 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from sqlalchemy import Column, Integer, ForeignKey, Table
+from sqlalchemy import Column, Integer, ForeignKey
 
-favorites = db.Table(
-    "favorites",
-    db.Column("user_id", Integer, ForeignKey(add_prefix_for_prod("users.id")), primary_key=True),
-    db.Column("tarantula_id", Integer, ForeignKey(add_prefix_for_prod("tarantulas.id")), primary_key=True)
-)
+class Favorite(db.Model):
+    __tablename__ = "favorites"
 
-if environment == "production":
-    favorites.schema = SCHEMA
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False)
+    tarantula_id = Column(Integer, db.ForeignKey(add_prefix_for_prod("tarantulas.id")), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "tarantula_id": self.tarantula_id
+        }
