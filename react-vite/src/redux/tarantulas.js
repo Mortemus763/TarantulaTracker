@@ -45,7 +45,7 @@ export const updateTarantula = createAsyncThunk(
   "tarantulas/updateTarantula",
   async (tarantulaData, { rejectWithValue }) => {
     try {
-      const response = await csrfFetch(`/api/tarantulas/${tarantulaData.id}`, {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaData.id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tarantulaData),
@@ -67,7 +67,7 @@ export const deleteTarantula = createAsyncThunk(
   "tarantulas/deleteTarantula",
   async (tarantulaId, { rejectWithValue }) => {
     try {
-      const response = await csrfFetch(`/api/tarantulas/${tarantulaId}`, {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaId}/`, {
         method: "DELETE",
       });
 

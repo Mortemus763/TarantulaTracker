@@ -8,10 +8,10 @@ forum_routes = Blueprint("forums", __name__)
 @forum_routes.route("/", methods=["GET"])
 def get_forum_posts():
     """
-    Get all forum posts
+    Get all forum posts (ordered by newest first)
     """
-    forum_posts = ForumPost.query.all()
-    return jsonify({"forumPosts": [post.to_dict() for post in forum_posts]}), 200
+    forum_posts = ForumPost.query.order_by(ForumPost.created_at.desc()).all()
+    return jsonify({"forums": [post.to_dict() for post in forum_posts]}), 200
 
 
 # Create a new forum post

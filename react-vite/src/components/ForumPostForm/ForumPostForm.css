@@ -1,0 +1,45 @@
+.forum-form-container {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+  }
+  
+  .forum-form-container h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .forum-form-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .forum-form-container label {
+    text-align: left;
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
+  .forum-form-container input,
+  .forum-form-container textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .forum-form-container button {
+    width: 100%;
+    background: black;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .forum-form-container button:hover {
+    background: #333;
+  }
+  

@@ -1,0 +1,84 @@
+/* Forum Container */
+.forum-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Forum Header */
+.forum-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Forum List */
+.forum-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Forum Item Styling */
+.forum-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Forum Title */
+.forum-item h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Forum Content */
+.forum-item p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Forum Tags */
+.forum-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.forum-tag {
+    background: #f0f0f0;
+    color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+/* Forum Actions (Edit/Delete Buttons) */
+.forum-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.edit-btn {
+    background: black;
+    color: white;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+}
