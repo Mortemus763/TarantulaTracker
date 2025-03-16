@@ -7,15 +7,24 @@ export const fetchForums = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await csrfFetch("/api/forums/");
-      if (!response.ok) throw new Error("Failed to fetch forum posts");
-      return await response.json();
+
+      if (!response.ok) {
+        const errorData = await response.json(); 
+        throw new Error(errorData.error || "Failed to fetch forum posts");
+      }
+
+      const data = await response.json();
+      return data.forums.map(post => ({
+        ...post,
+        tags: post.tags || [] // Ensure tags exist
+      }));
     } catch (error) {
       return rejectWithValue(error.message);
     }
   }
 );
 
-// Create a New Forum Post
+// Create a New Forum Post with Tags
 export const createForum = createAsyncThunk(
   "forums/createForum",
   async (forumData, { rejectWithValue }) => {
@@ -25,10 +34,23 @@ export const createForum = createAsyncThunk(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(forumData),
       });
-      if (!response.ok) throw new Error("Failed to create forum post");
-      return await response.json();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("API Error:", errorData);
+        return rejectWithValue(errorData.error || "Failed to create forum post");
+      }
+
+      const newForum = await response.json();
+      console.log("New Forum Created:", newForum);
+
+      return {
+        ...newForum.forumPost,
+        tags: newForum.forumPost.tags || []
+      };
     } catch (error) {
-      return rejectWithValue(error.message);
+      console.error("Create Forum Catch Block Error:", error);
+      return rejectWithValue(error?.message || "Unknown error occurred");
     }
   }
 );
@@ -43,8 +65,17 @@ export const editForum = createAsyncThunk(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(forumData),
       });
-      if (!response.ok) throw new Error("Failed to edit forum post");
-      return await response.json();
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to edit forum post");
+      }
+
+      const updatedForum = await response.json();
+      return {
+        ...updatedForum.forumPost,
+        tags: updatedForum.forumPost.tags || [] // Ensure tags exist
+      };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -59,7 +90,12 @@ export const deleteForum = createAsyncThunk(
       const response = await csrfFetch(`/api/forums/${forumId}`, {
         method: "DELETE",
       });
-      if (!response.ok) throw new Error("Failed to delete forum post");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to delete forum post");
+      }
+
       return { forumId };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -69,19 +105,33 @@ export const deleteForum = createAsyncThunk(
 
 const forumSlice = createSlice({
   name: "forums",
-  initialState: { list: [] },
+  initialState: { list: [], status: "idle", error: null },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(fetchForums.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(fetchForums.fulfilled, (state, action) => {
-        state.list = action.payload.forums;
+        state.status = "succeeded";
+        state.list = action.payload;
+      })
+      .addCase(fetchForums.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       })
       .addCase(createForum.fulfilled, (state, action) => {
         state.list.push(action.payload);
       })
+      .addCase(createForum.rejected, (state, action) => {
+        console.error("Create Forum Failed:", action.payload);
+        state.error = action.payload;
+      })
       .addCase(editForum.fulfilled, (state, action) => {
         const index = state.list.findIndex(forum => forum.id === action.payload.id);
-        if (index !== -1) state.list[index] = action.payload;
+        if (index !== -1) {
+          state.list[index] = action.payload;
+        }
       })
       .addCase(deleteForum.fulfilled, (state, action) => {
         state.list = state.list.filter(forum => forum.id !== action.payload.forumId);

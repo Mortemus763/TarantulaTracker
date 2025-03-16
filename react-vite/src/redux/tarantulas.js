@@ -55,18 +55,22 @@ export const updateTarantula = createAsyncThunk(
   "tarantulas/updateTarantula",
   async (tarantulaData, { rejectWithValue }) => {
     try {
+      console.log("Submitting update:", tarantulaData);
       const response = await csrfFetch(`/api/tarantulas/${tarantulaData.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tarantulaData),
       });
+      const data = await response.json();
+      console.log("Update response:", data);
 
       if (!response.ok) {
         throw new Error("Failed to update tarantula");
       }
 
-      return await response.json();
+      return data;
     } catch (error) {
+      console.error("Update failed:", error.message);
       return rejectWithValue(error.message);
     }
   }
@@ -92,6 +96,18 @@ export const deleteTarantula = createAsyncThunk(
   }
 );
 
+export const fetchTarantulaById = createAsyncThunk(
+  "tarantulas/fetchTarantulaById",
+  async (tarantulaId, { rejectWithValue }) => {
+    try {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaId}`);
+      if (!response.ok) throw new Error("Failed to fetch tarantula");
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 const tarantulasSlice = createSlice({
   name: "tarantulas",
@@ -114,9 +130,13 @@ const tarantulasSlice = createSlice({
         state.list.push(action.payload);
       })
       .addCase(updateTarantula.fulfilled, (state, action) => {
-        const index = state.list.findIndex((t) => t.id === action.payload.id);
+        if (!action.payload.tarantula) return;
+      
+        const updatedTarantula = action.payload.tarantula;
+        const index = state.list.findIndex((t) => t.id === updatedTarantula.id);
+      
         if (index !== -1) {
-          state.list[index] = action.payload; 
+          state.list[index] = updatedTarantula; 
         }
       })
       .addCase(deleteTarantula.fulfilled, (state, action) => {

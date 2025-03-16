@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchForums } from "../../redux/forum";
+import { fetchTags } from "../../redux/tags";
 import { useModal } from "../../context/Modal";
 import ForumPostForm from "../ForumPostForm/ForumPostForm";
 import EditForumPostForm from "../EditForumPostForm/EditForumPostForm";
@@ -12,28 +13,85 @@ function ForumPage() {
     const { setModalContent } = useModal();
     const user = useSelector((state) => state.session.user);
     const forums = useSelector((state) => state.forums?.list || []);
+    
+    const [searchTerm, setSearchTerm] = useState("");
+    const [tagSearchTerm, setTagSearchTerm] = useState("");
+    const [selectedTag, setSelectedTag] = useState(null);
+    const [filteredForums, setFilteredForums] = useState([]);
 
+    // Fetch forums and tags on mount
     useEffect(() => {
         dispatch(fetchForums());
+        dispatch(fetchTags());
     }, [dispatch]);
+
+    // Apply filtering based on search term & selected tag
+    useEffect(() => {
+        let filtered = forums;
+
+        if (searchTerm.trim()) {
+            filtered = filtered.filter(forum =>
+                forum.title.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+
+        if (tagSearchTerm.trim()) {
+            filtered = filtered.filter(forum =>
+                forum.tags.some(tag => tag.name.toLowerCase().includes(tagSearchTerm.toLowerCase()))
+            );
+        }
+
+        if (selectedTag) {
+            filtered = filtered.filter(forum =>
+                forum.tags.some(tag => tag.id === selectedTag)
+            );
+        }
+
+        setFilteredForums(filtered);
+    }, [searchTerm, tagSearchTerm, selectedTag, forums]);
 
     return (
         <div className="forum-container">
-            <h1>Forums</h1>
-            <button className="create-forum-btn" onClick={() => setModalContent(<ForumPostForm />)}>
-                Create New Forum+
-            </button>
+            {/* Header with Title and Search */}
+            <div className="forum-header">
+                <h1>Forums</h1>
+                <div className="forum-search">
+                    <input
+                        type="text"
+                        placeholder="Search forums by title..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+            </div>
 
-            {forums.length === 0 && <p>No forum posts found.</p>}
+            {/* Tag Search & Create Forum Button */}
+            <div className="forum-actions-container">
+                <div className="tag-search">
+                    <label>Tags:</label>
+                    <input
+                        type="text"
+                        placeholder="Search forums by tag..."
+                        value={tagSearchTerm}
+                        onChange={(e) => setTagSearchTerm(e.target.value)}
+                    />
+                </div>
+                <button className="create-forum-btn" onClick={() => setModalContent(<ForumPostForm />)}>
+                    Create New Forum+
+                </button>
+            </div>
 
-            {forums.length > 0 && (
+            {/* Forum List */}
+            {filteredForums.length === 0 ? (
+                <p>No forum posts found.</p>
+            ) : (
                 <div className="forum-list">
-                    {forums.map((forum) => (
+                    {filteredForums.map((forum) => (
                         <div key={forum.id} className="forum-item">
                             <h3>{forum.title}</h3>
                             <p>{forum.content}</p>
 
-                            {forum.tags && forum.tags.length > 0 && (
+                            {forum.tags?.length > 0 && (
                                 <div className="forum-tags">
                                     {forum.tags.map((tag) => (
                                         <span key={tag.id} className="forum-tag">{tag.name}</span>
@@ -42,7 +100,7 @@ function ForumPage() {
                             )}
 
                             <div className="forum-actions">
-                                {user && user.id === forum.user_id && (
+                                {user?.id === forum.user_id && (
                                     <>
                                         <button
                                             className="edit-btn"

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import db, ForumPost
+from app.models import db, ForumPost, Tag
 
 forum_routes = Blueprint("forums", __name__)
 
@@ -19,27 +19,58 @@ def get_forum_posts():
 @login_required
 def create_forum_post():
     """
-    Create a new forum post
+    Create a new forum post with optional user-defined tags
     """
-    data = request.get_json()
+    try:
+        data = request.get_json()
+        print("Received Data:", data)  # ✅ Log request data
 
-    # Validate request body
-    required_fields = ["title", "content"]
-    for field in required_fields:
-        if field not in data:
-            return jsonify({"error": f"'{field}' is required"}), 400
+        # Validate request body
+        required_fields = ["title", "content"]
+        for field in required_fields:
+            if field not in data:
+                print(f"💥 Missing field: {field}")  # ✅ Log missing fields
+                return jsonify({"error": f"'{field}' is required"}), 400
 
-    # Create new forum post
-    new_post = ForumPost(
-        user_id=current_user.id,
-        title=data["title"],
-        content=data["content"]
-    )
+        # Create new forum post
+        new_post = ForumPost(
+            user_id=current_user.id,
+            title=data["title"],
+            content=data["content"]
+        )
+        db.session.add(new_post)
+        db.session.commit()
 
-    db.session.add(new_post)
-    db.session.commit()
+        # Handle tags
+        if "tags" in data:
+            tag_names = {tag.strip().lower() for tag in data["tags"]}  # ✅ Avoid duplicates
 
-    return jsonify({"message": "Forum post created successfully!", "forumPost": new_post.to_dict()}), 201
+            # Fetch existing tags in one query
+            existing_tags = Tag.query.filter(Tag.name.in_(tag_names)).all()
+            existing_tag_names = {tag.name for tag in existing_tags}
+
+            # Create new tags if they don't exist
+            new_tags = [Tag(name=name) for name in tag_names if name not in existing_tag_names]
+            db.session.add_all(new_tags)
+            db.session.commit()  # ✅ Commit new tags before linking
+
+            # Attach tags to the forum post
+            new_post.tags.extend(existing_tags + new_tags)
+            db.session.commit()
+
+        print("✅ Forum post created successfully:", new_post.to_dict())  # ✅ Log success
+
+        return jsonify({
+            "message": "Forum post created successfully!",
+            "forumPost": {
+                **new_post.to_dict(),
+                "tags": [tag.to_dict() for tag in new_post.tags]  # ✅ Ensure tags are included
+            }
+        }), 201
+
+    except Exception as e:
+        print(f"💥 ERROR: {str(e)}")  # ✅ Log full error details
+        return jsonify({"error": "Something went wrong", "details": str(e)}), 500
 
 # Update an existing forum post
 @forum_routes.route("/<int:post_id>", methods=["PUT"])

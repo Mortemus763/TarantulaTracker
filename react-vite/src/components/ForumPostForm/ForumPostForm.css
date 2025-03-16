@@ -23,7 +23,7 @@
   
   .forum-form-container input,
   .forum-form-container textarea {
-    width: 100%;
+    width: 90%;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -42,4 +42,48 @@
   .forum-form-container button:hover {
     background: #333;
   }
+  .tag-input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
   
+  .tag-input-container input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .tag-input-container button {
+    padding: 8px 12px;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .tags-list {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .tag-item {
+    background: #ddd;
+    padding: 6px 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .tag-item button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    font-weight: bold;
+  }

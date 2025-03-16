@@ -30,4 +30,5 @@ class ForumPost(db.Model):
             "content": self.content,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
+            "tags": [{"id": tag.id, "name": tag.name} for tag in self.tags],
         }

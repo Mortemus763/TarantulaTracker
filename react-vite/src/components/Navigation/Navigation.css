@@ -13,7 +13,36 @@
   width: 40px;
   height: 40px;
 }
+.nav-logo {
+  display: flex;
+  align-items: center;  /* Centers items vertically */
+  text-decoration: none; /* Removes underline */
+}
 
+.spider-icon {
+  font-size: 30px; /* Adjust icon size */
+  color: #5A2A82; /* Matching purple color */
+}
+
+.nav-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #5A2A82; /* Adjust color */
+  margin: 0;
+  text-decoration: none;
+}
+
+.nav-logo, 
+.nav-logo:visited, 
+.nav-logo:hover, 
+.nav-title {
+  text-decoration: none !important;
+}
+.nav-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none; 
+}
 .collection-button {
   background-color: #f5f5f5;
   border: none;

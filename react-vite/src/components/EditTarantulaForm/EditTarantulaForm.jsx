@@ -8,7 +8,6 @@ function EditTarantulaForm({ tarantula }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
-  // Pre-populating values from the tarantula prop
   const [species, setSpecies] = useState(tarantula.species);
   const [name, setName] = useState(tarantula.name || "");
   const [age, setAge] = useState(tarantula.age || "");
@@ -20,26 +19,30 @@ function EditTarantulaForm({ tarantula }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
-
-    // Ensure species is required
+  
     if (!species.trim()) {
       setErrors(["Species is required"]);
       return;
     }
-
+  
     const updatedTarantula = {
-      id: tarantula.id, // Ensure ID is included for API update
-      species, 
+      id: tarantula.id,
+      species,
       name: name.trim() || null,
       age: age.trim() || null,
       description: description.trim() || null,
       location: location.trim() || null,
       image: image.trim() || null,
     };
-
+  
     try {
-      await dispatch(updateTarantula(updatedTarantula));
-      closeModal(); // Close modal on success
+      const resultAction = await dispatch(updateTarantula(updatedTarantula));
+  
+      if (updateTarantula.fulfilled.match(resultAction)) {
+        closeModal(); 
+      } else {
+        setErrors(["Failed to update tarantula"]);
+      }
     } catch (err) {
       setErrors(["Failed to update tarantula"]);
     }

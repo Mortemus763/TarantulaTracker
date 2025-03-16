@@ -24,7 +24,6 @@ def add_tarantula():
     """
     try:
         data = request.get_json()
-        print("Received Data:", data)  # Debugging log
 
         if not data:
             return jsonify({"error": "Invalid request, no data received"}), 400
@@ -109,3 +108,16 @@ def delete_tarantula(tarantula_id):
     db.session.commit()
 
     return jsonify({"message": "Tarantula deleted successfully!"}), 200
+
+@tarantula_routes.route("/<int:tarantula_id>", methods=["GET"])
+@login_required
+def get_tarantula(tarantula_id):
+    """
+    Get a single tarantula by ID
+    """
+    tarantula = Tarantula.query.get(tarantula_id)
+
+    if not tarantula:
+        return jsonify({"error": "Tarantula not found"}), 404
+
+    return jsonify({"tarantula": tarantula.to_dict()}), 200

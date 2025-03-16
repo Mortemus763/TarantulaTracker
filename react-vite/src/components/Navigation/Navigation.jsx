@@ -21,6 +21,7 @@ function Navigation() {
       <div className="nav-left">
         <NavLink to="/" className="nav-logo">
           <GiSpiderAlt className="spider-icon" />
+          <span className="nav-title">TarantulaTracker</span> 
         </NavLink>
       </div>
 
