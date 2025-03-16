@@ -23,18 +23,28 @@ export const addTarantula = createAsyncThunk(
   "tarantulas/addTarantula",
   async (tarantulaData, { rejectWithValue }) => {
     try {
+      console.log("Submitting Data:", tarantulaData); // Debugging Log
+
       const response = await csrfFetch("/api/tarantulas/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tarantulaData),
       });
 
+      console.log("Full Response:", response); // Debugging Log
+
       if (!response.ok) {
-        throw new Error("Failed to add tarantula");
+        const errorData = await response.json();
+        console.log("API Error:", errorData); // Log backend error response
+        return rejectWithValue(errorData.error || "Failed to add tarantula");
       }
 
-      return await response.json();
+      const responseData = await response.json();
+      console.log("API Success:", responseData); // Log success response
+
+      return responseData;
     } catch (error) {
+      console.log("Caught Error:", error.message); // Log any caught errors
       return rejectWithValue(error.message);
     }
   }
@@ -45,7 +55,7 @@ export const updateTarantula = createAsyncThunk(
   "tarantulas/updateTarantula",
   async (tarantulaData, { rejectWithValue }) => {
     try {
-      const response = await csrfFetch(`/api/tarantulas/${tarantulaData.id}/`, {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaData.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(tarantulaData),
@@ -67,7 +77,7 @@ export const deleteTarantula = createAsyncThunk(
   "tarantulas/deleteTarantula",
   async (tarantulaId, { rejectWithValue }) => {
     try {
-      const response = await csrfFetch(`/api/tarantulas/${tarantulaId}/`, {
+      const response = await csrfFetch(`/api/tarantulas/${tarantulaId}`, {
         method: "DELETE",
       });
 

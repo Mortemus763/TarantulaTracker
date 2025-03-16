@@ -22,27 +22,46 @@ def add_tarantula():
     """
     Add a new tarantula to the authenticated user's collection
     """
-    data = request.get_json()
+    try:
+        data = request.get_json()
+        print("Received Data:", data)  # Debugging log
 
-    # Validate request body
-    required_fields = ["name", "species", "age", "description"]
-    for field in required_fields:
-        if field not in data:
-            return jsonify({"error": f"'{field}' is required"}), 400
+        if not data:
+            return jsonify({"error": "Invalid request, no data received"}), 400
 
-    # Create new tarantula
-    new_tarantula = Tarantula(
-        user_id=current_user.id,
-        name=data["name"],
-        species=data["species"],
-        age=data["age"],
-        description=data["description"],
-    )
+        if "species" not in data or not data["species"].strip():
+            return jsonify({"error": "'species' is required"}), 400
 
-    db.session.add(new_tarantula)
-    db.session.commit()
+        # Ensure 'age' is properly handled
+        age = data.get("age")
+        if age is not None:
+            try:
+                age = int(age)  # Ensure age is an integer
+            except ValueError:
+                return jsonify({"error": "'age' must be a number"}), 400
 
-    return jsonify({"message": "Tarantula added successfully!", "tarantula": new_tarantula.to_dict()}), 201
+        # Create new tarantula
+        new_tarantula = Tarantula(
+            user_id=current_user.id,
+            species=data["species"],
+            name=data.get("name"),
+            age=age,  # Include the optional age field
+            description=data.get("description"),
+            location=data.get("location"),
+            image=data.get("image"),
+        )
+
+        db.session.add(new_tarantula)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Tarantula added successfully!",
+            "tarantula": new_tarantula.to_dict()
+        }), 201
+
+    except Exception as e:
+        print(f"💥 ERROR: {str(e)}")
+        return jsonify({"error": "Something went wrong on the server", "details": str(e)}), 500
 
 # Update an existing tarantula by ID
 @tarantula_routes.route("/<int:tarantula_id>", methods=["PUT"])

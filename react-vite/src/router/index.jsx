@@ -29,6 +29,10 @@ export const router = createBrowserRouter([
         path: "/forums",
         element: <ForumPage />,
       },
+      // {
+      //   path: "/tarantulas/:id",
+      //   element: <TarantulaDetail />,
+      // }
     ],
   },
 ]);

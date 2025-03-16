@@ -13,10 +13,12 @@ class Tarantula(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
-    name = db.Column(db.String(88), nullable=False)
+    name = db.Column(db.String(88), nullable=True)
     species = db.Column(db.String(100))
     age = db.Column(db.Integer)
     description = db.Column(db.Text())
+    location = db.Column(db.String(255), nullable=True)  
+    image = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
@@ -31,6 +33,8 @@ class Tarantula(db.Model):
             "species": self.species,
             "age": self.age,
             "description": self.description,
+            "location": self.location,
+            "image": self.image,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
         }

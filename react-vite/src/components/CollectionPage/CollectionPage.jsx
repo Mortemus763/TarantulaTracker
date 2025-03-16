@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchTarantulas } from "../../redux/tarantulas";
 import { fetchFavorites, addFavorite, removeFavorite } from "../../redux/favorite";
 import { useModal } from "../../context/Modal";
@@ -11,6 +12,7 @@ import "./CollectionPage.css";
 
 function CollectionPage() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { setModalContent } = useModal();
     const user = useSelector((state) => state.session.user);
     const tarantulas = useSelector((state) => state.tarantulas?.list || []);
@@ -19,7 +21,7 @@ function CollectionPage() {
     useEffect(() => {
         if (!user) return;
         dispatch(fetchTarantulas());
-        dispatch(fetchFavorites()); // Fetch user's favorite tarantulas
+        dispatch(fetchFavorites());
     }, [dispatch, user]);
 
     if (!user) return <h2>Please log in to view your collection.</h2>;
@@ -45,24 +47,34 @@ function CollectionPage() {
 
             {tarantulas.length > 0 && (
                 <div className="collection-list">
-                    {tarantulas.map((tarantula) => (
-                        <div key={tarantula.id} className="collection-item">
+                    {tarantulas.map((tarantula, index) => (
+                        <div
+                            key={tarantula.id || `tarantula-${index}`} 
+                            className="collection-item"
+                            onClick={() => navigate(`/tarantulas/${tarantula.id}`)}
+                        >
                             <div className="image-placeholder">
-                                <img src="/placeholder-image.png" alt="Tarantula" />
+                                <img src={tarantula.image || "/placeholder-image.png"} alt="Tarantula" />
                             </div>
                             <div className="collection-details">
-                                <h3>{tarantula.name}</h3>
+                                <h3>{tarantula.species}</h3>
                                 <p>{tarantula.description}</p>
                                 <div className="collection-actions">
                                     <button
                                         className="edit-btn"
-                                        onClick={() => setModalContent(<EditTarantulaForm tarantula={tarantula} />)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setModalContent(<EditTarantulaForm tarantula={tarantula} />);
+                                        }}
                                     >
                                         Edit
                                     </button>
                                     <button
                                         className="delete-btn"
-                                        onClick={() => setModalContent(<DeleteTarantulaModal tarantulaId={tarantula.id} />)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setModalContent(<DeleteTarantulaModal tarantulaId={tarantula.id} />);
+                                        }}
                                     >
                                         Delete
                                     </button>
@@ -70,7 +82,10 @@ function CollectionPage() {
                             </div>
                             <div
                                 className="favorite-icon"
-                                onClick={() => handleFavoriteClick(tarantula.id)}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleFavoriteClick(tarantula.id);
+                                }}
                             >
                                 {isFavorited(tarantula.id) ? (
                                     <FaHeart className="heart-icon filled" style={{ color: "red" }} />

@@ -1,0 +1,72 @@
+.tarantula-form-container {
+    width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .tarantula-form-container h2 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .tarantula-form-container p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  tarantula-form-container .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  /* Scoped label styles */
+  .tarantula-form-container label {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  /* Scoped input and textarea styles */
+  .tarantula-form-container input,
+  .tarantula-form-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  /* Scoped textarea */
+  .tarantula-form-container textarea {
+    height: 80px;
+    resize: none;
+  }
+  
+  /* Scoped button styles */
+  .tarantula-form-container button {
+    width: 100%;
+    padding: 12px;
+    background: black;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .tarantula-form-container button:hover {
+    background: #333;
+  }
+  
+  /* Scoped error message */
+  .tarantula-form-container .error {
+    color: red;
+    font-size: 14px;
+  }
