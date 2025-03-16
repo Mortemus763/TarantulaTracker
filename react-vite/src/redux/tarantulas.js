@@ -23,7 +23,6 @@ export const addTarantula = createAsyncThunk(
   "tarantulas/addTarantula",
   async (tarantulaData, { rejectWithValue }) => {
     try {
-      console.log("Submitting Data:", tarantulaData); // Debugging Log
 
       const response = await csrfFetch("/api/tarantulas/", {
         method: "POST",
@@ -31,20 +30,15 @@ export const addTarantula = createAsyncThunk(
         body: JSON.stringify(tarantulaData),
       });
 
-      console.log("Full Response:", response); // Debugging Log
-
       if (!response.ok) {
         const errorData = await response.json();
-        console.log("API Error:", errorData); // Log backend error response
         return rejectWithValue(errorData.error || "Failed to add tarantula");
       }
 
       const responseData = await response.json();
-      console.log("API Success:", responseData); // Log success response
 
       return responseData;
     } catch (error) {
-      console.log("Caught Error:", error.message); // Log any caught errors
       return rejectWithValue(error.message);
     }
   }

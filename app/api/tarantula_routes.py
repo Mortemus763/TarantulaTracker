@@ -84,6 +84,8 @@ def update_tarantula(tarantula_id):
     tarantula.species = data.get("species", tarantula.species)
     tarantula.age = data.get("age", tarantula.age)
     tarantula.description = data.get("description", tarantula.description)
+    tarantula.location = data.get("location", tarantula.location)
+    tarantula.image = data.get("image", tarantula.image) 
 
     db.session.commit()
 

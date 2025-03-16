@@ -158,3 +158,18 @@
 .demo-user-link:hover {
   text-decoration: underline;
 }
+
+.profile-link {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: white;
+  background: black;
+  border-radius: 4px;
+  text-align: center;
+  margin: 5px 0;
+}
+
+.profile-link:hover {
+  background: #333;
+}

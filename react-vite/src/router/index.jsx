@@ -4,6 +4,8 @@ import SignupFormPage from '../components/SignupFormPage';
 import CollectionPage from "../components/CollectionPage/CollectionPage";
 import ForumPage from "../components/ForumPage/ForumPage";
 import TarantulaDetail from "../components/TarantulaDetail/TarantulaDetail"; 
+import MyForumsPage from "../components/MyForumPage/MyForumPage"; 
+import FavoritesPage from "../components/FavoritePage/FavoritePage";
 import Layout from './Layout';
 
 export const router = createBrowserRouter([
@@ -33,7 +35,15 @@ export const router = createBrowserRouter([
       {
         path: "/tarantulas/:tarantulaId",
         element: <TarantulaDetail />,
-      }
+      },
+      {
+        path: "/my-forums", 
+        element: <MyForumsPage />,
+      },
+      {
+        path: "/favorites", 
+        element: <FavoritesPage />,
+      },
     ],
   },
 ]);

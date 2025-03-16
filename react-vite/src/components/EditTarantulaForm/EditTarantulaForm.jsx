@@ -29,7 +29,7 @@ function EditTarantulaForm({ tarantula }) {
       id: tarantula.id,
       species,
       name: name.trim() || null,
-      age: age.trim() || null,
+      age: age || null,
       description: description.trim() || null,
       location: location.trim() || null,
       image: image.trim() || null,
@@ -78,7 +78,7 @@ function EditTarantulaForm({ tarantula }) {
           <input 
             type="number" 
             value={age} 
-            onChange={(e) => setName(e.target.value)} 
+            onChange={(e) => setAge(e.target.value)} 
           />
         </div>
 
