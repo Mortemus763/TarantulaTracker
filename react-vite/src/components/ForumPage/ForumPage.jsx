@@ -16,7 +16,7 @@ function ForumPage() {
     
     const [searchTerm, setSearchTerm] = useState("");
     const [tagSearchTerm, setTagSearchTerm] = useState("");
-    const [selectedTag, setSelectedTag] = useState(null);
+    const [selectedTag,] = useState(null);
     const [filteredForums, setFilteredForums] = useState([]);
 
     useEffect(() => {
