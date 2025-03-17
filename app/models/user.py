@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     
     forum_posts = relationship("ForumPost", back_populates="user", cascade="all, delete-orphan")
-    favorite_tarantulas = relationship("Tarantula", secondary="favorites", back_populates="favorited_by")
+    favorites = relationship("Favorite", back_populates="user", cascade="all, delete-orphan")
     forum_replies = relationship("ForumReply", back_populates="user", cascade="all, delete-orphan")
 
     @property

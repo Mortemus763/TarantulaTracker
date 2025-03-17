@@ -23,7 +23,7 @@ class Tarantula(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     # Relationship 
-    favorited_by = relationship("User", secondary="favorites", back_populates="favorite_tarantulas")
+    favorited_by = relationship("Favorite", back_populates="tarantula", cascade="all, delete-orphan")
     
     def to_dict(self):
         return {
