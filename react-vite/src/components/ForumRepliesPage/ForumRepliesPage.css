@@ -1,0 +1,37 @@
+.forum-replies-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.replies-section {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+}
+
+.replies-section h2 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.replies-section p {
+    font-size: 18px;
+    color: gray;
+}
+
+.back-btn {
+    margin-top: 20px;
+    padding: 10px 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background-color: #333;
+}

@@ -32,34 +32,36 @@ function LoginFormPage() {
   };
 
   return (
-    <>
+    <div className="auth-form-container">
       <h1>Log In</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
-        <label>
-          Email
+        <div className="form-group">
+          <label>Email</label>
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
+        </div>
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
+        
+        <div className="form-group">
+          <label>Password</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
+        </div>
         {errors.password && <p>{errors.password}</p>}
+
         <button type="submit">Log In</button>
       </form>
-    </>
+    </div>
   );
 }
 

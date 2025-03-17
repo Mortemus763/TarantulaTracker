@@ -10,8 +10,6 @@ function SignupFormModal() {
 
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [first_name, setFirst_name] = useState("");
-  const [last_name, setLast_name] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -21,8 +19,7 @@ function SignupFormModal() {
 
     if (password !== confirmPassword) {
       return setErrors({
-        confirmPassword:
-          "Confirm Password field must be the same as the Password field",
+        confirmPassword: "Confirm Password field must match the Password field",
       });
     }
 
@@ -30,8 +27,6 @@ function SignupFormModal() {
       thunkSignup({
         email,
         username,
-        first_name,
-        last_name,
         password,
       })
     );
@@ -66,24 +61,6 @@ function SignupFormModal() {
           required
         />
         {errors.username && <p className="error">{errors.username}</p>}
-
-        <label>First Name:</label>
-        <input
-          type="text"
-          value={first_name}
-          onChange={(e) => setFirst_name(e.target.value)}
-          required
-        />
-        {errors.first_name && <p className="error">{errors.first_name}</p>}
-
-        <label>Last Name:</label>
-        <input
-          type="text"
-          value={last_name}
-          onChange={(e) => setLast_name(e.target.value)}
-          required
-        />
-        {errors.last_name && <p className="error">{errors.last_name}</p>}
 
         <label>Password:</label>
         <input

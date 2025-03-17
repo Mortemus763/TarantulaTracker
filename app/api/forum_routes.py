@@ -73,7 +73,7 @@ def create_forum_post():
 @login_required
 def update_forum_post(post_id):
     """
-    Update an existing forum post
+    Update an existing forum post (including updating tags)
     """
     post = ForumPost.query.get(post_id)
 
@@ -89,9 +89,36 @@ def update_forum_post(post_id):
     post.title = data.get("title", post.title)
     post.content = data.get("content", post.content)
 
+    # Handle tags safely
+    if "tags" in data:
+        try:
+            tag_names = {tag["name"].strip().lower() for tag in data["tags"] if isinstance(tag, dict) and "name" in tag}
+            
+            # Fetch existing tags
+            existing_tags = Tag.query.filter(Tag.name.in_(tag_names)).all()
+            existing_tag_names = {tag.name for tag in existing_tags}
+
+            # Create new tags if they don't exist
+            new_tags = [Tag(name=name) for name in tag_names if name not in existing_tag_names]
+            db.session.add_all(new_tags)
+            db.session.commit()
+
+            # Update post tags
+            post.tags = existing_tags + new_tags  # Replace old tags with new ones
+
+        except Exception as e:
+            return jsonify({"error": "Failed to update tags", "details": str(e)}), 500
+
     db.session.commit()
 
-    return jsonify({"message": "Forum post updated successfully!", "forumPost": post.to_dict()}), 200
+    return jsonify({
+        "message": "Forum post updated successfully!",
+        "forumPost": {
+            **post.to_dict(),
+            "tags": [tag.to_dict() for tag in post.tags]
+        }
+    }), 200
+
 
 # Remove a forum post
 @forum_routes.route("/<int:post_id>", methods=["DELETE"])

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchForums } from "../../redux/forum";
 import { fetchTags } from "../../redux/tags";
 import { useModal } from "../../context/Modal";
@@ -11,6 +12,7 @@ import "./ForumPage.css";
 function ForumPage() {
     const dispatch = useDispatch();
     const { setModalContent } = useModal();
+    const navigate = useNavigate();
     const user = useSelector((state) => state.session.user);
     const forums = useSelector((state) => state.forums?.list || []);
     
@@ -50,7 +52,6 @@ function ForumPage() {
 
     return (
         <div className="forum-container">
-
             <div className="forum-header">
                 <h1>Forums</h1>
                 <div className="forum-search">
@@ -85,7 +86,11 @@ function ForumPage() {
             ) : (
                 <div className="forum-list">
                     {filteredForums.map((forum) => (
-                        <div key={forum.id} className="forum-item">
+                        <div 
+                            key={forum.id} 
+                            className="forum-item"
+                            onClick={() => navigate(`/forums/${forum.id}`)}
+                        >
                             <h3>{forum.title}</h3>
                             <p>{forum.content}</p>
 
@@ -102,13 +107,19 @@ function ForumPage() {
                                     <>
                                         <button
                                             className="edit-btn"
-                                            onClick={() => setModalContent(<EditForumPostForm forum={forum} />)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setModalContent(<EditForumPostForm forum={forum} />);
+                                            }}
                                         >
                                             Edit
                                         </button>
                                         <button
                                             className="delete-btn"
-                                            onClick={() => setModalContent(<DeleteForumPostModal forumId={forum.id} />)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setModalContent(<DeleteForumPostModal forumId={forum.id} />);
+                                            }}
                                         >
                                             Delete
                                         </button>

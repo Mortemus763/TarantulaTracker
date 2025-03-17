@@ -39,7 +39,12 @@ function TarantulaDetail() {
                     <p><strong>Location:</strong> {tarantula.location || "Unknown"}</p>
                     <p><strong>Description:</strong> {tarantula.description || "No description provided."}</p>
                 </div>
+                <div className="task-reminder">
+                    <h3>Task Reminder</h3>
+                    <p>Coming soon...</p>
+                </div>
             </div>
+
             <button className="back-btn" onClick={() => navigate("/collection")}>
                 ← Back to Collection
             </button>

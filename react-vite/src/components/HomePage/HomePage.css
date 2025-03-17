@@ -1,0 +1,38 @@
+.homepage-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .welcome-message h1 {
+    font-size: 32px;
+    font-weight: bold;
+  }
+  
+  .welcome-message p {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .auth-links {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .signup-link-home, .login-link-home {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 18px; 
+  }
+  
+  .signup-link-home {
+    background-color: black;
+    color: white;
+  }
+  
+  .login-link-home {
+    background-color: gray;
+    color: white;
+  }
+  

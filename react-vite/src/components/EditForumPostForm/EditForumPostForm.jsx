@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { editForum, fetchForums } from "../../redux/forum";
 import { useModal } from "../../context/Modal";
@@ -9,9 +9,15 @@ function EditForumPostForm({ forum }) {
 
   const [title, setTitle] = useState(forum.title);
   const [content, setContent] = useState(forum.content);
-  const [tags, setTags] = useState(forum.tags.map(tag => tag.name) || []);
+  const [tags, setTags] = useState([]);
   const [newTag, setNewTag] = useState("");
   const [errors, setErrors] = useState([]);
+
+  useEffect(() => {
+    if (forum?.tags) {
+      setTags(forum.tags.map(tag => tag.name));
+    }
+  }, [forum]); 
 
   const handleTagAdd = () => {
     if (newTag.trim() && !tags.includes(newTag.trim().toLowerCase())) {
@@ -28,7 +34,9 @@ function EditForumPostForm({ forum }) {
     e.preventDefault();
     setErrors([]);
 
-    const updatedForum = { title, content, tags };
+    const formattedTags = tags.map(tag => ({ name: tag }));
+
+    const updatedForum = { title, content, tags: formattedTags };
 
     try {
       await dispatch(editForum({ forumId: forum.id, forumData: updatedForum }));

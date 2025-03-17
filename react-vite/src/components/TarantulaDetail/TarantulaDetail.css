@@ -9,7 +9,12 @@
     align-items: center;
     gap: 20px;
 }
-
+.tarantula-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-grow: 1;
+}
 .image-section img {
     width: 300px;
     height: 200px;

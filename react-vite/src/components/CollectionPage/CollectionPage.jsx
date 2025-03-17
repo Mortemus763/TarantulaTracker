@@ -19,10 +19,13 @@ function CollectionPage() {
     const favoriteTarantulaIds = useSelector((state) => state.favorites?.list || []);
 
     useEffect(() => {
-        if (!user) return;
+        if (!user) {
+            navigate("/"); 
+            return;
+        }
         dispatch(fetchTarantulas());
         dispatch(fetchFavorites());
-    }, [dispatch, user]);
+    }, [dispatch, user, navigate]);
 
     if (!user) return <h2>Please log in to view your collection.</h2>;
 
