@@ -46,7 +46,7 @@ function FavoritesPage() {
                             <div
                                 className="favorite-icon"
                                 onClick={(e) => {
-                                    e.stopPropagation(); // Prevent navigation
+                                    e.stopPropagation(); 
                                     dispatch(removeFavorite(tarantula.id));
                                 }}
                             >

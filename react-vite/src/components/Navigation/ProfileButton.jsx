@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, } from "react-router-dom";
 import { FaUserCircle } from 'react-icons/fa';
 import { thunkLogin, thunkLogout } from "../../redux/session";
+import { useModal } from "../../context/Modal";
+import SignupFormModal from "../SignupFormModal";
 
 
 function ProfileButton() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { setModalContent } = useModal();
   const [showMenu, setShowMenu] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +52,10 @@ function ProfileButton() {
     dispatch(thunkLogout());
     closeMenu();
   };
-
+  const openSignupModal = () => {
+    closeMenu(); 
+    setModalContent(<SignupFormModal />); 
+  };
   return (
     <div className="profile-container">
       <button onClick={toggleMenu} className="profile-icon">
@@ -89,7 +94,13 @@ function ProfileButton() {
                 required
               />
               <button type="submit" className="login-button">Log In</button>
-              <button type="button" className="signup-button">Sign Up</button>
+              <button
+                type="button"
+                className="signup-button-profile"
+                onClick={openSignupModal} 
+              >
+                Sign Up
+              </button>
               <a href="#" className="demo-user-link" onClick={handleDemoLogin}>
                 Demo User
               </a>

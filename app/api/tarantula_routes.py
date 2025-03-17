@@ -59,7 +59,6 @@ def add_tarantula():
         }), 201
 
     except Exception as e:
-        print(f"💥 ERROR: {str(e)}")
         return jsonify({"error": "Something went wrong on the server", "details": str(e)}), 500
 
 # Update an existing tarantula by ID

@@ -23,13 +23,12 @@ def create_forum_post():
     """
     try:
         data = request.get_json()
-        print("Received Data:", data)  # ✅ Log request data
+
 
         # Validate request body
         required_fields = ["title", "content"]
         for field in required_fields:
             if field not in data:
-                print(f"💥 Missing field: {field}")  # ✅ Log missing fields
                 return jsonify({"error": f"'{field}' is required"}), 400
 
         # Create new forum post
@@ -43,7 +42,7 @@ def create_forum_post():
 
         # Handle tags
         if "tags" in data:
-            tag_names = {tag.strip().lower() for tag in data["tags"]}  # ✅ Avoid duplicates
+            tag_names = {tag.strip().lower() for tag in data["tags"]} 
 
             # Fetch existing tags in one query
             existing_tags = Tag.query.filter(Tag.name.in_(tag_names)).all()
@@ -52,24 +51,21 @@ def create_forum_post():
             # Create new tags if they don't exist
             new_tags = [Tag(name=name) for name in tag_names if name not in existing_tag_names]
             db.session.add_all(new_tags)
-            db.session.commit()  # ✅ Commit new tags before linking
+            db.session.commit() 
 
             # Attach tags to the forum post
             new_post.tags.extend(existing_tags + new_tags)
             db.session.commit()
 
-        print("✅ Forum post created successfully:", new_post.to_dict())  # ✅ Log success
-
         return jsonify({
             "message": "Forum post created successfully!",
             "forumPost": {
                 **new_post.to_dict(),
-                "tags": [tag.to_dict() for tag in new_post.tags]  # ✅ Ensure tags are included
+                "tags": [tag.to_dict() for tag in new_post.tags] 
             }
         }), 201
 
     except Exception as e:
-        print(f"💥 ERROR: {str(e)}")  # ✅ Log full error details
         return jsonify({"error": "Something went wrong", "details": str(e)}), 500
 
 # Update an existing forum post

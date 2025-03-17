@@ -26,9 +26,11 @@ function Navigation() {
       </div>
 
       <div className="nav-right">
+      {user && (
         <NavLink to="/collection" className="collection-button" onClick={handleCollectionClick}>
           My Collection
         </NavLink>
+         )}
         <NavLink to="/forums" className="nav-link">
           Forums
         </NavLink>

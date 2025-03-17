@@ -20,7 +20,6 @@ function TarantulaForm() {
     e.preventDefault();
     setErrors([]);
 
-    // Ensure species is required
     if (!species.trim()) {
       setErrors(["Species is required"]);
       return;

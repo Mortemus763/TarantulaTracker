@@ -16,7 +16,7 @@ export const fetchForums = createAsyncThunk(
       const data = await response.json();
       return data.forums.map(post => ({
         ...post,
-        tags: post.tags || [] // Ensure tags exist
+        tags: post.tags || [] 
       }));
     } catch (error) {
       return rejectWithValue(error.message);
@@ -74,7 +74,7 @@ export const editForum = createAsyncThunk(
       const updatedForum = await response.json();
       return {
         ...updatedForum.forumPost,
-        tags: updatedForum.forumPost.tags || [] // Ensure tags exist
+        tags: updatedForum.forumPost.tags || [] 
       };
     } catch (error) {
       return rejectWithValue(error.message);

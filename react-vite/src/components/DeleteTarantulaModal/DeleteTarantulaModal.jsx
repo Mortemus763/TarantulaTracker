@@ -9,7 +9,7 @@ function DeleteTarantulaModal({ tarantulaId }) {
 
   const handleDelete = async () => {
     await dispatch(deleteTarantula(tarantulaId));
-    closeModal(); // Close the modal after deleting
+    closeModal(); 
   };
 
   return (

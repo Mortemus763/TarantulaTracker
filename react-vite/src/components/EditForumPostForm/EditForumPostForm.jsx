@@ -73,8 +73,7 @@ function EditForumPostForm({ forum }) {
             Add Tag
           </button>
         </div>
-
-        {/* Display Existing Tags */}
+        
         <div className="tags-list">
           {tags.map((tag, index) => (
             <span key={index} className="tag-item">

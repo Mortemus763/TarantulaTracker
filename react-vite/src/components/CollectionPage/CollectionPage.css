@@ -93,15 +93,15 @@
 }
 
 .favorite-label {
-    opacity: 0; /* Hide label initially */
+    opacity: 0; 
     transition: opacity 0.3s ease-in-out;
 }
 
 /* Hover effect */
 .favorite-icon:hover .heart-icon {
-    color: red; /* Highlight heart in red */
+    color: red; 
 }
 
 .favorite-icon:hover .favorite-label {
-    opacity: 1; /* Show label on hover */
+    opacity: 1; 
 }

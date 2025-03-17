@@ -19,13 +19,11 @@ function ForumPage() {
     const [selectedTag, setSelectedTag] = useState(null);
     const [filteredForums, setFilteredForums] = useState([]);
 
-    // Fetch forums and tags on mount
     useEffect(() => {
         dispatch(fetchForums());
         dispatch(fetchTags());
     }, [dispatch]);
 
-    // Apply filtering based on search term & selected tag
     useEffect(() => {
         let filtered = forums;
 
@@ -52,7 +50,7 @@ function ForumPage() {
 
     return (
         <div className="forum-container">
-            {/* Header with Title and Search */}
+
             <div className="forum-header">
                 <h1>Forums</h1>
                 <div className="forum-search">
@@ -65,7 +63,6 @@ function ForumPage() {
                 </div>
             </div>
 
-            {/* Tag Search & Create Forum Button */}
             <div className="forum-actions-container">
                 <div className="tag-search">
                     <label>Tags:</label>
@@ -76,12 +73,13 @@ function ForumPage() {
                         onChange={(e) => setTagSearchTerm(e.target.value)}
                     />
                 </div>
+                {user && (
                 <button className="create-forum-btn" onClick={() => setModalContent(<ForumPostForm />)}>
                     Create New Forum+
                 </button>
+                )}
             </div>
 
-            {/* Forum List */}
             {filteredForums.length === 0 ? (
                 <p>No forum posts found.</p>
             ) : (
