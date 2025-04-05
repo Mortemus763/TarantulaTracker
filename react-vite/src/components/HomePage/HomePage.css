@@ -35,4 +35,15 @@
     background-color: gray;
     color: white;
   }
-  
+  .demo-user-home {
+    background-color: #23588d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .demo-user-home:hover {
+    background-color: #1b466f;
+  }

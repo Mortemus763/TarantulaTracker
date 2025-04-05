@@ -14,25 +14,27 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  const handleFieldChange = (setter, fieldName) => (e) => {
+    setter(e.target.value);
+    setErrors((prev) => ({ ...prev, [fieldName]: [] }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
 
     if (password !== confirmPassword) {
       return setErrors({
-        confirmPassword: "Confirm Password field must match the Password field",
+        confirmPassword: ["Confirm Password field must match the Password field"],
       });
     }
 
-    const serverResponse = await dispatch(
-      thunkSignup({
-        email,
-        username,
-        password,
-      })
+    const response = await dispatch(
+      thunkSignup({ email, username, password })
     );
 
-    if (serverResponse) {
-      setErrors(serverResponse);
+    if (response && typeof response === "object") {
+      setErrors(response);
     } else {
       closeModal();
     }
@@ -41,44 +43,50 @@ function SignupFormModal() {
   return (
     <div className="signup-form-modal">
       <h1>Sign Up</h1>
-      {errors.server && <p className="error">{errors.server}</p>}
-
       <form className="signup-form" onSubmit={handleSubmit}>
         <label>Email:</label>
         <input
           type="text"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleFieldChange(setEmail, "email")}
           required
         />
-        {errors.email && <p className="error">{errors.email}</p>}
+        {errors.email && errors.email.map((msg, idx) => (
+          <p key={`email-${idx}`} className="error">{msg}</p>
+        ))}
 
         <label>Username:</label>
         <input
           type="text"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={handleFieldChange(setUsername, "username")}
           required
         />
-        {errors.username && <p className="error">{errors.username}</p>}
+        {errors.username && errors.username.map((msg, idx) => (
+          <p key={`username-${idx}`} className="error">{msg}</p>
+        ))}
 
         <label>Password:</label>
         <input
           type="password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleFieldChange(setPassword, "password")}
           required
         />
-        {errors.password && <p className="error">{errors.password}</p>}
+        {errors.password && errors.password.map((msg, idx) => (
+          <p key={`password-${idx}`} className="error">{msg}</p>
+        ))}
 
         <label>Confirm Password:</label>
         <input
           type="password"
           value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={handleFieldChange(setConfirmPassword, "confirmPassword")}
           required
         />
-        {errors.confirmPassword && <p className="error">{errors.confirmPassword}</p>}
+        {errors.confirmPassword && errors.confirmPassword.map((msg, idx) => (
+          <p key={`confirm-${idx}`} className="error">{msg}</p>
+        ))}
 
         <button className="signup-button" type="submit">
           Sign Up

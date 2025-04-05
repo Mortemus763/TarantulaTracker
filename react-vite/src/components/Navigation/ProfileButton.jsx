@@ -13,6 +13,7 @@ function ProfileButton() {
   const [showMenu, setShowMenu] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
 
@@ -27,6 +28,7 @@ function ProfileButton() {
     const closeMenu = (e) => {
       if (ulRef.current && !ulRef.current.contains(e.target)) {
         setShowMenu(false);
+        setErrors({});
       }
     };
 
@@ -34,14 +36,23 @@ function ProfileButton() {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const closeMenu = () => setShowMenu(false);
+  const closeMenu = () => {
+    setShowMenu(false);
+    setErrors({});
+  };
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    await dispatch(thunkLogin({ email, password }));
-    closeMenu();
+    setErrors({});
+    const response = await dispatch(thunkLogin({ email, password }));
+    if (response) {
+      setErrors(response);
+    } else {
+      closeMenu();
+    }
   };
-  
+
   const handleDemoLogin = async () => {
     await dispatch(thunkLogin({ email: "demo@aa.io", password: "password" }));
     closeMenu();
@@ -53,8 +64,8 @@ function ProfileButton() {
     closeMenu();
   };
   const openSignupModal = () => {
-    closeMenu(); 
-    setModalContent(<SignupFormModal />); 
+    closeMenu();
+    setModalContent(<SignupFormModal />);
   };
   return (
     <div className="profile-container">
@@ -66,15 +77,15 @@ function ProfileButton() {
           {user ? (
             <>
               <p className="profile-username">Hello, {user.username}</p>
-              
+
               <NavLink to="/my-forums" className="profile-link" onClick={closeMenu}>
                 My Forums
               </NavLink>
-  
+
               <NavLink to="/favorites" className="profile-link" onClick={closeMenu}>
                 Favorites
               </NavLink>
-  
+
               <button className="logout-button" onClick={logout}>Log Out</button>
             </>
           ) : (
@@ -86,6 +97,8 @@ function ProfileButton() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              {errors.email && <p className="error-message">{errors.email}</p>}
+
               <label>Password</label>
               <input
                 type="password"
@@ -93,11 +106,13 @@ function ProfileButton() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+              {errors.password && <p className="error-message">{errors.password}</p>}
+              {errors.server && <p className="error-message">{errors.server}</p>}
               <button type="submit" className="login-button">Log In</button>
               <button
                 type="button"
                 className="signup-button-profile"
-                onClick={openSignupModal} 
+                onClick={openSignupModal}
               >
                 Sign Up
               </button>

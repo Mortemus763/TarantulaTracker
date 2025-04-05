@@ -43,7 +43,7 @@ function SignupFormPage() {
   return (
     <div className="auth-form-container">
       <h1>Sign Up</h1>
-      {errors.server && <p>{errors.server}</p>}
+      {errors.server && <p className="error-message">{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Email</label>
@@ -54,7 +54,7 @@ function SignupFormPage() {
             required
           />
         </div>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-message">{errors.email}</p>}
 
         <div className="form-group">
           <label>Username</label>
@@ -65,7 +65,7 @@ function SignupFormPage() {
             required
           />
         </div>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="error-message">{errors.username}</p>}
 
         <div className="form-group">
           <label>Password</label>
@@ -76,7 +76,7 @@ function SignupFormPage() {
             required
           />
         </div>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="error-message">{errors.password}</p>}
 
         <div className="form-group">
           <label>Confirm Password</label>
@@ -87,7 +87,7 @@ function SignupFormPage() {
             required
           />
         </div>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
 
         <button type="submit">Sign Up</button>
       </form>
