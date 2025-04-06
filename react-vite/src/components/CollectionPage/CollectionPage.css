@@ -31,16 +31,15 @@
     gap: 15px;
   }
   
-  .collection-item {
-    display: flex;
-    align-items: flex-start;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    justify-content: space-between;
-  }
-  
+.collection-item {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
   .image-placeholder img {
     width: 150px; 
     height: 150px; 
@@ -107,4 +106,80 @@
 
 .favorite-icon:hover .favorite-label {
     opacity: 1; 
+}
+.favorite-icon-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-more {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  color: #444;
+  transition: color 0.2s;
+}
+
+.post-more:hover {
+  color: #000;
+}
+
+.collection-item {
+  position: relative;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: box-shadow 0.2s ease-in-out;
+}
+.top-actions-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.menu-wrapper {
+  position: relative;
+}
+
+.dropdown-actions {
+  position: absolute;
+  top: 24px;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: white;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.dropdown-actions button {
+  width: 70px;
+  font-size: 14px;
+}
+.dropdown-actions {
+  opacity: 0;
+  animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }

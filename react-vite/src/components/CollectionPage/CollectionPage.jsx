@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchTarantulas } from "../../redux/tarantulas";
@@ -17,10 +17,29 @@ function CollectionPage() {
     const user = useSelector((state) => state.session.user);
     const tarantulas = useSelector((state) => state.tarantulas?.list || []);
     const favoriteTarantulaIds = useSelector((state) => state.favorites?.list || []);
+    const [showMoreId, setShowMoreId] = useState(null);
+    const dropdownRef = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setShowMoreId(null);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+    const toggleShowMore = (e, id) => {
+        e.stopPropagation();
+        setShowMoreId((prevId) => (prevId === id ? null : id));
+    };
 
     useEffect(() => {
         if (!user) {
-            navigate("/"); 
+            navigate("/");
             return;
         }
         dispatch(fetchTarantulas());
@@ -39,6 +58,7 @@ function CollectionPage() {
         }
     };
 
+
     return (
         <div className="collection-container">
             <h1>Collection</h1>
@@ -52,50 +72,70 @@ function CollectionPage() {
                 <div className="collection-list">
                     {tarantulas.map((tarantula, index) => (
                         <div
-                            key={tarantula.id || `tarantula-${index}`} 
+                            key={tarantula.id || `tarantula-${index}`}
                             className="collection-item"
                             onClick={() => navigate(`/tarantulas/${tarantula.id}`)}
                         >
                             <div className="image-placeholder">
                                 <img src={tarantula.image || "/placeholder-image.png"} alt="Tarantula" />
                             </div>
+
                             <div className="collection-details">
                                 <h3>{tarantula.species}</h3>
                                 <p>{tarantula.description}</p>
-                                <div className="collection-actions">
+
+                            </div>
+                            <div className="top-actions-wrapper">
+                    
+                                <div
+                                    className="favorite-icon"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleFavoriteClick(tarantula.id);
+                                    }}
+                                >
+                                    {isFavorited(tarantula.id) ? (
+                                        <FaHeart className="heart-icon filled" style={{ color: "red" }} />
+                                    ) : (
+                                        <FaRegHeart className="heart-icon" />
+                                    )}
+                                </div>
+
+                                <div className="menu-wrapper" ref={dropdownRef}>
                                     <button
-                                        className="edit-btn"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setModalContent(<EditTarantulaForm tarantula={tarantula} />);
-                                        }}
+                                        onClick={(e) => toggleShowMore(e, tarantula.id)}
+                                        className="post-more"
                                     >
-                                        Edit
+                                        ...
                                     </button>
-                                    <button
-                                        className="delete-btn"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setModalContent(<DeleteTarantulaModal tarantulaId={tarantula.id} />);
-                                        }}
-                                    >
-                                        Delete
-                                    </button>
+
+                                    {showMoreId === tarantula.id && (
+                                        <div className="dropdown-actions">
+                                            <button
+                                                className="edit-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setShowMoreId(null); 
+                                                    setModalContent(<EditTarantulaForm tarantula={tarantula} />);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                className="delete-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setShowMoreId(null); 
+                                                    setModalContent(<DeleteTarantulaModal tarantulaId={tarantula.id} />);
+                                                }}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
-                            <div
-                                className="favorite-icon"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleFavoriteClick(tarantula.id);
-                                }}
-                            >
-                                {isFavorited(tarantula.id) ? (
-                                    <FaHeart className="heart-icon filled" style={{ color: "red" }} />
-                                ) : (
-                                    <FaRegHeart className="heart-icon" />
-                                )}
-                            </div>
+
                         </div>
                     ))}
                 </div>
