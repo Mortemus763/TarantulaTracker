@@ -1,4 +1,4 @@
-from app.models import db, Task
+from app.models import db, Task, environment, SCHEMA
 from datetime import datetime, timedelta
 
 def seed_tasks():
