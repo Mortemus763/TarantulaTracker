@@ -8,8 +8,8 @@ def seed_tarantulas():
         species="Brachypelma Smithi",
         age=3,
         description="A beautiful and docile tarantula.",
-        location="Mexico",  
-        image="https://example.com/brachypelma-smithi.jpg"  
+        location="Mexico",
+        image="https://images.pexels.com/photos/3234842/pexels-photo-3234842.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
     )
     tarantula2 = Tarantula(
         user_id=2,
@@ -18,7 +18,7 @@ def seed_tarantulas():
         age=5,
         description="Great for beginners!",
         location="Chile",  
-        image="https://example.com/grammostola-rosea.jpg"  
+        image="https://example.com/grammostola-rosea.jpg"
     )
     tarantula3 = Tarantula(
         user_id=3,
@@ -27,10 +27,10 @@ def seed_tarantulas():
         age=2,
         description="Vibrant colors and web-heavy behavior.",
         location="Venezuela",  
-        image="https://example.com/green-bottle-blue.jpg"  
+        image="https://example.com/green-bottle-blue.jpg"
     )
 
-    db.session.add_all([tarantula1, tarantula2, tarantula3])  
+    db.session.add_all([tarantula1, tarantula2, tarantula3])
     db.session.commit()
 
 def undo_tarantulas():

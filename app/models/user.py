@@ -4,6 +4,7 @@ from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 from .favorite import Favorite
 from .forum_reply import ForumReply
+from .task import Task
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -19,6 +20,7 @@ class User(db.Model, UserMixin):
     forum_posts = relationship("ForumPost", back_populates="user", cascade="all, delete-orphan")
     favorites = relationship("Favorite", back_populates="user", cascade="all, delete-orphan")
     forum_replies = relationship("ForumReply", back_populates="user", cascade="all, delete-orphan")
+    tasks = db.relationship("Task", back_populates="user", cascade="all, delete-orphan")
 
     @property
     def password(self):

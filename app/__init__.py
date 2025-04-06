@@ -12,6 +12,7 @@ from .api.forum_routes import forum_routes
 from .api.favorites_routes import favorites_routes
 from .api.tags_routes import tags_routes
 from .api.replies_routes import forum_replies_routes
+from .api.task_routes import task_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -38,6 +39,7 @@ app.register_blueprint(forum_routes, url_prefix="/api/forums")
 app.register_blueprint(favorites_routes, url_prefix="/api/favorites")
 app.register_blueprint(tags_routes, url_prefix="/api/tags")
 app.register_blueprint(forum_replies_routes, url_prefix="/api/forum/replies")
+app.register_blueprint(task_routes, url_prefix="/api/tasks")
 db.init_app(app)
 Migrate(app, db)
 

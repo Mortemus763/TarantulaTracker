@@ -3,7 +3,8 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
-from .favorite import Favorite 
+from .favorite import Favorite
+from .task import Task
 
 class Tarantula(db.Model):
     __tablename__ = "tarantulas"
@@ -24,6 +25,7 @@ class Tarantula(db.Model):
 
     # Relationship 
     favorited_by = relationship("Favorite", back_populates="tarantula", cascade="all, delete-orphan")
+    tasks = db.relationship("Task", back_populates="tarantula", cascade="all, delete-orphan")
     
     def to_dict(self):
         return {

@@ -9,12 +9,14 @@ import sessionReducer from "./session";
 import tarantulasReducer from "./tarantulas";
 import favoritesReducer from "./favorite";
 import forumsReducer from "./forum";
+import tasksReducer from './tasks';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   tarantulas: tarantulasReducer,
   favorites: favoritesReducer,
   forums: forumsReducer,
+  tasks: tasksReducer,
 });
 
 let enhancer;
