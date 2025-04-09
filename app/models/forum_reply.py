@@ -25,6 +25,7 @@ class ForumReply(db.Model):
             "id": self.id,
             "post_id": self.post_id,
             "user_id": self.user_id,
+            "username": self.user.username,
             "content": self.content,
             "created_at": self.created_at,
             "updated_at": self.updated_at

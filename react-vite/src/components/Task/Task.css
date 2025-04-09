@@ -120,3 +120,25 @@
 .task-reset-btn:hover {
   background-color: #1976d2;
 }
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.task-header h4 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.task-created {
+  font-size: 13px;
+  color: #666;
+}
+.task-reset-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}

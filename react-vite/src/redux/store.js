@@ -10,6 +10,7 @@ import tarantulasReducer from "./tarantulas";
 import favoritesReducer from "./favorite";
 import forumsReducer from "./forum";
 import tasksReducer from './tasks';
+import forumRepliesReducer from './forumReplies';
 
 const rootReducer = combineReducers({
   session: sessionReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   favorites: favoritesReducer,
   forums: forumsReducer,
   tasks: tasksReducer,
+  forumReplies: forumRepliesReducer,
 });
 
 let enhancer;

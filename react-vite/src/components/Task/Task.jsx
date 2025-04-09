@@ -96,7 +96,12 @@ function Task({ tarantulaId }) {
           {tasks.map((task) => (
             <div key={task.id} className={`task-item ${task.completed ? "completed" : ""}`}>
               <div className="task-info">
-                <h4>{task.name}</h4>
+                <div className="task-header">
+                  <h4>{task.name}</h4>
+                  <span className="task-created">
+                    📅Date: {new Date(task.created_at).toLocaleDateString()}
+                  </span>
+                </div>
                 <p>{task.description}</p>
                 <p className="task-status">
                   Status: {task.completed ? "✅ Done" : "🕒 Incomplete"}
@@ -114,7 +119,11 @@ function Task({ tarantulaId }) {
                 <button className="task-delete-btn" onClick={() => handleDelete(task.id)}>
                   Delete
                 </button>
-                <button className="task-reset-btn" onClick={() => handleReset(task)}>
+                <button
+                  className="task-reset-btn"
+                  onClick={() => handleReset(task)}
+                  disabled={task.completed}
+                >
                   Reset Timer
                 </button>
               </div>

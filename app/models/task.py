@@ -29,5 +29,6 @@ class Task(db.Model):
             "description": self.description,
             "due_date": self.due_date.isoformat(),
             "completed": self.completed,
-            "interval_days": self.interval_days
+            "interval_days": self.interval_days,
+            "created_at": self.created_at.isoformat(), 
         }
