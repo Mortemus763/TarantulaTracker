@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchTarantulas } from "../../redux/tarantulas";
@@ -20,11 +20,20 @@ function CollectionPage() {
   const favoriteTarantulaIds = useSelector((state) => state.favorites?.list || []);
   const tasks = useSelector((state) => state.tasks || {});
   const [showMoreId, setShowMoreId] = useState(null);
-  const dropdownRef = useRef();
+  const dropdownRefs = useRef({});
+
+  useEffect(() => {
+    tarantulas.forEach((t) => {
+      if (!dropdownRefs.current[t.id]) {
+        dropdownRefs.current[t.id] = React.createRef();
+      }
+    });
+  }, [tarantulas]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+      const currentRef = dropdownRefs.current[showMoreId];
+      if (currentRef && currentRef.current && !currentRef.current.contains(e.target)) {
         setShowMoreId(null);
       }
     };
@@ -33,11 +42,7 @@ function CollectionPage() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-  const toggleShowMore = (e, id) => {
-    e.stopPropagation();
-    setShowMoreId((prevId) => (prevId === id ? null : id));
-  };
+  }, [showMoreId]);
 
   useEffect(() => {
     if (!user) {
@@ -54,8 +59,6 @@ function CollectionPage() {
     dispatch(editTask(task.id, { due_date: newDueDate.toISOString() }));
   };
 
-  if (!user) return <h2>Please log in to view your collection.</h2>;
-
   const isFavorited = (tarantulaId) => favoriteTarantulaIds.includes(tarantulaId);
 
   const handleFavoriteClick = (tarantulaId) => {
@@ -66,14 +69,12 @@ function CollectionPage() {
     }
   };
 
+  if (!user) return <h2>Please log in to view your collection.</h2>;
 
   return (
     <div className="collection-container">
       <h1>Collection</h1>
-      <button
-        className="add-collection-btn"
-        onClick={() => setModalContent(<TarantulaForm />)}
-      >
+      <button className="add-collection-btn" onClick={() => setModalContent(<TarantulaForm />)}>
         Add Collection+
       </button>
 
@@ -89,12 +90,9 @@ function CollectionPage() {
             const remainingDays =
               task && task.due_date
                 ? Math.max(
-                  0,
-                  Math.ceil(
-                    (new Date(task.due_date) - new Date()) /
-                    (1000 * 60 * 60 * 24)
+                    0,
+                    Math.ceil((new Date(task.due_date) - new Date()) / (1000 * 60 * 60 * 24))
                   )
-                )
                 : null;
 
             return (
@@ -115,7 +113,9 @@ function CollectionPage() {
                   <p>{tarantula.description}</p>
                   {task ? (
                     <div className="task-timer">
-                      <p className="task-name-label"><strong>Task:</strong> {task.name}</p>
+                      <p className="task-name-label">
+                        <strong>Task:</strong> {task.name}
+                      </p>
                       <p className="task-due-label">
                         <strong>Next Due In:</strong>{" "}
                         {remainingDays === 0
@@ -153,11 +153,11 @@ function CollectionPage() {
                     )}
                   </div>
 
-                  <div className="menu-wrapper" ref={dropdownRef}>
+                  <div className="menu-wrapper" ref={dropdownRefs.current[tarantula.id]}>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        toggleShowMore(e, tarantula.id);
+                        setShowMoreId((prevId) => (prevId === tarantula.id ? null : tarantula.id));
                       }}
                       className="post-more"
                     >
@@ -171,9 +171,7 @@ function CollectionPage() {
                           onClick={(e) => {
                             e.stopPropagation();
                             setShowMoreId(null);
-                            setModalContent(
-                              <EditTarantulaForm tarantula={tarantula} />
-                            );
+                            setModalContent(<EditTarantulaForm tarantula={tarantula} />);
                           }}
                         >
                           Edit
@@ -183,9 +181,7 @@ function CollectionPage() {
                           onClick={(e) => {
                             e.stopPropagation();
                             setShowMoreId(null);
-                            setModalContent(
-                              <DeleteTarantulaModal tarantulaId={tarantula.id} />
-                            );
+                            setModalContent(<DeleteTarantulaModal tarantulaId={tarantula.id} />);
                           }}
                         >
                           Delete
