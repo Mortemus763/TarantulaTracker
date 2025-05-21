@@ -1,8 +1,8 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { GiSpiderAlt } from "react-icons/gi";
+import { BellIcon } from "lucide-react"; // optional notification icon
 import ProfileButton from "./ProfileButton";
-import "./Navigation.css";
 
 function Navigation() {
   const user = useSelector((state) => state.session.user);
@@ -16,25 +16,54 @@ function Navigation() {
     }
     navigate("/collection");
   };
+
   return (
-    <nav className="navbar">
-      <div className="nav-left">
-        <NavLink to="/" className="nav-logo">
-          <GiSpiderAlt className="spider-icon" />
-          <span className="nav-title">TarantulaTracker</span> 
+    <nav className="bg-white border-b shadow-sm px-6 py-4 flex items-center justify-between">
+      {/* Left: Logo */}
+      <div className="flex items-center space-x-2">
+        <GiSpiderAlt className="text-rose-500 text-2xl" />
+        <NavLink to="/" className="text-xl font-bold text-gray-800 hover:text-rose-500">
+          TarantulaTracker
         </NavLink>
       </div>
 
-      <div className="nav-right">
-      {user && (
-        <NavLink to="/collection" className="collection-button" onClick={handleCollectionClick}>
+      {/* Center: Navigation Links */}
+      <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
+        <NavLink to="/" className={({ isActive }) =>
+          isActive ? "text-rose-600 border-b-2 border-rose-600 pb-1" : "hover:text-rose-500"
+        }>
+          Dashboard
+        </NavLink>
+        <NavLink
+          to="/collection"
+          onClick={handleCollectionClick}
+          className={({ isActive }) =>
+            isActive ? "text-rose-600 border-b-2 border-rose-600 pb-1" : "hover:text-rose-500"
+          }
+        >
           My Collection
         </NavLink>
-         )}
-        <NavLink to="/forums" className="nav-link">
+        <NavLink to="/forums" className={({ isActive }) =>
+          isActive ? "text-rose-600 border-b-2 border-rose-600 pb-1" : "hover:text-rose-500"
+        }>
           Forums
         </NavLink>
+        <NavLink to="/care-guides" className={({ isActive }) =>
+          isActive ? "text-rose-600 border-b-2 border-rose-600 pb-1" : "hover:text-rose-500"
+        }>
+          Care Guides
+        </NavLink>
+      </div>
 
+      {/* Right: Notifications + Profile */}
+      <div className="flex items-center space-x-4">
+        {user && (
+          <button className="relative">
+            <BellIcon className="text-gray-600 hover:text-rose-500 w-5 h-5" />
+            {/* Notification dot */}
+            <span className="absolute -top-1 -right-1 bg-red-500 h-2 w-2 rounded-full"></span>
+          </button>
+        )}
         <ProfileButton />
       </div>
     </nav>
